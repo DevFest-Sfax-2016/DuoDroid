@@ -2,6 +2,7 @@ package com.voteme.duodroid.voteme.Adapters;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +18,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.voteme.duodroid.voteme.MainActivity;
 import com.voteme.duodroid.voteme.R;
 import com.voteme.duodroid.voteme.model.Agent;
 import com.voteme.duodroid.voteme.model.Poste;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Mohamed chiheb on 27/11/2016.
@@ -33,6 +37,7 @@ public class AgentAdapter extends RecyclerView.Adapter<AgentAdapter.CustomViewHo
     private Context mContext;
     private DatabaseReference mDatabase;
     String name;
+    Agent a;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -66,13 +71,13 @@ public class AgentAdapter extends RecyclerView.Adapter<AgentAdapter.CustomViewHo
         customViewHolder.btn_voit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                updateAgentScore(Integer.parseInt(voit.getKeyid()),voit.getScore(),true);
             }
         });
         customViewHolder.btn_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                updateAgentScore(Integer.parseInt(voit.getKeyid()),voit.getScore(),false);
             }
         });
     }
@@ -147,6 +152,45 @@ public class AgentAdapter extends RecyclerView.Adapter<AgentAdapter.CustomViewHo
 
 
         }
+    }
+    public void updateAgentScore(final int key,final int score, final boolean b)
+    {
+        mDatabase = database.getReference("/agent");
+
+        Log.d("test","entrer");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.d("Count " ,""+snapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+
+                    if(Integer.parseInt(postSnapshot.getKey())==key)
+                    {
+                        a = postSnapshot.getValue(Agent.class);
+                        Log.d("Get Data",  postSnapshot.getKey());
+                    }
+
+
+                }
+                Map<String,Object> taskMap = new HashMap<String,Object>();
+                if(b){
+                    taskMap.put("score", score+1);
+                }else {
+                    taskMap.put("score", score-1);
+                }
+
+                mDatabase.child(Integer.toString(key)).updateChildren(taskMap);
+                Intent i=new Intent(mContext, MainActivity.class);
+                mContext.startActivity(i);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
     }
 
 }

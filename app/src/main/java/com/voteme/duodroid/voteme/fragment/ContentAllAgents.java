@@ -44,7 +44,7 @@ public class ContentAllAgents extends Fragment implements ScreenShotable {
     protected int res;
     private Bitmap bitmap;
     private List<Agent> data;
-    private SwipeRefreshLayout swipeRefreshLayout;
+
 
     public ContentAllAgents( ) {
 
@@ -73,7 +73,7 @@ public class ContentAllAgents extends Fragment implements ScreenShotable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_content_all_agents, container, false);
-        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.freshSwipeView);
+
         mRecyclerView = (RecyclerView) v.findViewById(R.id.list_agents);
         // int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
         // mRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
@@ -88,32 +88,20 @@ public class ContentAllAgents extends Fragment implements ScreenShotable {
         adapter=new AgentAdapter(getContext(),data);
         mRecyclerView.setAdapter(adapter);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                recuperer();
-            }
-        });
+
 
         /**
          * Showing Swipe Refresh animation on activity create
          * As animation won't start on onCreate, post runnable is used
          */
-        swipeRefreshLayout.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        swipeRefreshLayout.setRefreshing(true);
 
-                                        //recuperer();
-                                    }
-                                }
-        );
+
       return v;
     }
 
 private  void recuperer(){
     data=new ArrayList<Agent>();
-    swipeRefreshLayout.setRefreshing(true);
+
     getall();
 
 }
@@ -146,12 +134,13 @@ private  void recuperer(){
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Agent post = postSnapshot.getValue(Agent.class);
                     Log.d("Get Data", post.getName());
+                    post.setKeyid(postSnapshot.getKey());
                     data.add(post);
                 }
                 trier_array(data);
                 adapter=new AgentAdapter(getContext(),data);
                 mRecyclerView.setAdapter(adapter);
-                swipeRefreshLayout.setRefreshing(false);
+
 
             }
 

@@ -192,6 +192,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
                 Intent i=new Intent(MainActivity.this,MainActivity.class);
 
                 startActivity(i);
+                //appellagent();
             case ContentFragment.POSTE:
 
                 appelpostes();
@@ -202,7 +203,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         }
     }
 private void appellagent(){
-    ContentAllAgents contentFragment =  new ContentAllAgents();
+    ContentAllAgents contentFragment =   ContentAllAgents.newInstance(R.drawable.voteme);
 
 
 

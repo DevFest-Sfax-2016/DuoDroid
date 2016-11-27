@@ -8,6 +8,15 @@ public class Agent {
     private int code_pst;
     private int score;
     private String email;
+    private String keyid;
+
+    public String getKeyid() {
+        return keyid;
+    }
+
+    public void setKeyid(String keyid) {
+        this.keyid = keyid;
+    }
 
     public Agent() {
     }

@@ -10,20 +10,17 @@
     tools:context="com.voteme.duodroid.voteme.fragment.ContentAllAgents">
 
     <!-- TODO: Update blank fragment layout -->
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/freshSwipeView"
-        android:layout_width="match_parent"
-        android:layout_marginTop="85px"
-        android:layout_height="match_parent">
+
         <!-- TODO: Update blank fragment layout -->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_agents"
+            android:layout_marginTop="87px"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
 
             />
-    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 </FrameLayout>
 </io.codetail.widget.RevealFrameLayout>
