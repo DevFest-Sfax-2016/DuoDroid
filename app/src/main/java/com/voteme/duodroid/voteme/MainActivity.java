@@ -16,7 +16,9 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.voteme.duodroid.voteme.fragment.ContentAllAgents;
 import com.voteme.duodroid.voteme.fragment.ContentFragment;
+import com.voteme.duodroid.voteme.fragment.ContentPoste;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private List<SlideMenuItem> list = new ArrayList<>();
-    private ContentFragment contentFragment;
+    private ContentAllAgents contentFragment;
     private ViewAnimator viewAnimator;
     private int res = R.drawable.content_music;
     private LinearLayout linearLayout;
@@ -44,7 +46,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        contentFragment = ContentFragment.newInstance(R.drawable.content_music);
+        contentFragment = ContentAllAgents.newInstance(R.drawable.voteme);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, contentFragment)
                 .commit();
@@ -67,9 +69,9 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     private void createMenuList() {
         SlideMenuItem menuItem0 = new SlideMenuItem(ContentFragment.CLOSE, R.drawable.icn_close);
         list.add(menuItem0);
-        SlideMenuItem menuItem = new SlideMenuItem(ContentFragment.BUILDING, R.drawable.agents);
+        SlideMenuItem menuItem = new SlideMenuItem(ContentFragment.AGENTS, R.drawable.agents);
         list.add(menuItem);
-        SlideMenuItem menuItem2 = new SlideMenuItem(ContentFragment.CASE, R.drawable.icn_1);
+        SlideMenuItem menuItem2 = new SlideMenuItem(ContentFragment.POSTE, R.drawable.icn_1);
         list.add(menuItem2);
         SlideMenuItem menuItem3 = new SlideMenuItem(ContentFragment.PAINT, R.drawable.map);
         list.add(menuItem3);
@@ -148,7 +150,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     }
 
     private ScreenShotable replaceFragment(ScreenShotable screenShotable, int topPosition) {
-        this.res = this.res == R.drawable.content_music ? R.drawable.content_films : R.drawable.content_music;
+        this.res = this.res == R.drawable.voteme ? R.drawable.voteme : R.drawable.voteme;
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
         SupportAnimator animator = ViewAnimationUtils.createCircularReveal(view, 0, topPosition, 0, finalRadius);
@@ -157,7 +159,11 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
 
         findViewById(R.id.content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
         animator.start();
-        ContentFragment contentFragment = ContentFragment.newInstance(this.res);
+        switch (topPosition){
+            case 1:
+                ContentAllAgents contentFragment = ContentAllAgents.newInstance(this.res);
+        }
+        //ContentFragment contentFragment = ContentFragment.newInstance(this.res);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
         return contentFragment;
     }
@@ -169,9 +175,28 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
                 return screenShotable;
             case ContentFragment.LOGOUT:
                 signOut();
+            case ContentFragment.AGENTS:
+                appellagent();
+            case ContentFragment.POSTE:
+                appelpostes();
+
+
             default:
                 return replaceFragment(screenShotable, position);
         }
+    }
+private void appellagent(){
+    ContentAllAgents contentFragment = new ContentAllAgents();
+
+
+    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
+}
+
+    private void appelpostes(){
+        ContentPoste contentFragment = new ContentPoste();
+
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
     }
     private void signOut() {
         FirebaseAuth.getInstance().signOut();

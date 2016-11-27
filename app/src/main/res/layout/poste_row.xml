@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:contentPadding="8dp"
+    app:cardUseCompatPadding="true"
+
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        >
+
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/imgtes"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:src="@drawable/postal"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"/>
+
+        <TextView
+            android:layout_below="@id/imgtes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="adresse"
+            android:id="@+id/tv_adresse"
+            android:textSize="22dp"
+
+            android:textColor="@color/colorPrimaryDark" />
+
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/btn_marker"
+            android:background="@drawable/marker"
+            android:layout_marginBottom="25dp"
+            android:layout_alignBottom="@+id/imgtes"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:id="@+id/tv_name_p"
+            android:textSize="22dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@+id/imgtes"
+            android:layout_toEndOf="@+id/imgtes" />
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
