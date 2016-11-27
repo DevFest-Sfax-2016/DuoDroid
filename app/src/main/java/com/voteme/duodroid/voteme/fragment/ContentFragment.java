@@ -26,7 +26,7 @@ public class ContentFragment extends Fragment implements ScreenShotable {
     public static final String CASE = "Case";
     public static final String SHOP = "Shop";
     public static final String PARTY = "Party";
-    public static final String MOVIE = "Movie";
+    public static final String LOGOUT = "LOGOUT";
 
     private View containerView;
     protected ImageView mImageView;

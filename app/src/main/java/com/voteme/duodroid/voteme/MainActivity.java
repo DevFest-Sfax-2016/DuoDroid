@@ -1,5 +1,6 @@
 package com.voteme.duodroid.voteme;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.voteme.duodroid.voteme.fragment.ContentFragment;
 
 import java.util.ArrayList;
@@ -71,6 +73,8 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         list.add(menuItem2);
         SlideMenuItem menuItem3 = new SlideMenuItem(ContentFragment.PAINT, R.drawable.map);
         list.add(menuItem3);
+        SlideMenuItem menuItem4 = new SlideMenuItem(ContentFragment.LOGOUT, R.drawable.logout);
+        list.add(menuItem4);
 
 
     }
@@ -163,9 +167,16 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         switch (slideMenuItem.getName()) {
             case ContentFragment.CLOSE:
                 return screenShotable;
+            case ContentFragment.LOGOUT:
+                signOut();
             default:
                 return replaceFragment(screenShotable, position);
         }
+    }
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 
     @Override
