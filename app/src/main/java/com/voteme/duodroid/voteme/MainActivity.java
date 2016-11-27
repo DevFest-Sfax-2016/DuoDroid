@@ -80,7 +80,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         list.add(menuItem);
         SlideMenuItem menuItem2 = new SlideMenuItem(ContentFragment.POSTE, R.drawable.icn_1);
         list.add(menuItem2);
-        SlideMenuItem menuItem3 = new SlideMenuItem(ContentFragment.PAINT, R.drawable.map);
+        SlideMenuItem menuItem3 = new SlideMenuItem(ContentFragment.MAP, R.drawable.map);
         list.add(menuItem3);
         SlideMenuItem menuItem4 = new SlideMenuItem(ContentFragment.LOGOUT, R.drawable.logout);
         list.add(menuItem4);
@@ -188,19 +188,24 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
                 return screenShotable;
             case ContentFragment.LOGOUT:
                 signOut();
+                break;
             case ContentFragment.AGENTS:
                 Intent i=new Intent(MainActivity.this,MainActivity.class);
 
-                startActivity(i);
+                startActivity(i);break;
+
                 //appellagent();
             case ContentFragment.POSTE:
 
-                appelpostes();
+                appelpostes();break;
+
+            case ContentFragment.MAP:
+                appelmap();break;
 
 
-            default:
-                return replaceFragment(screenShotable, position);
+
         }
+        return replaceFragment(screenShotable, position);
     }
 private void appellagent(){
     ContentAllAgents contentFragment =   ContentAllAgents.newInstance(R.drawable.voteme);
@@ -209,6 +214,10 @@ private void appellagent(){
 
     getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
 }
+    private void appelmap(){
+        Intent i=new Intent(MainActivity.this,MapsActivity.class);
+        startActivity(i);
+    }
 
     private void appelpostes(){
         ContentPoste contentFragment = ContentPoste.newInstance(R.drawable.voteme);
