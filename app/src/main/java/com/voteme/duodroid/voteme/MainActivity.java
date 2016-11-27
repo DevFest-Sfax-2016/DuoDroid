@@ -15,8 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.voteme.duodroid.voteme.Broadcast.ConnectivityReceiver;
+import com.voteme.duodroid.voteme.Broadcast.MyApplication;
 import com.voteme.duodroid.voteme.fragment.ContentAllAgents;
 import com.voteme.duodroid.voteme.fragment.ContentFragment;
 import com.voteme.duodroid.voteme.fragment.ContentPoste;
@@ -33,7 +36,7 @@ import yalantis.com.sidemenu.model.SlideMenuItem;
 import yalantis.com.sidemenu.util.ViewAnimator;
 
 
-public class MainActivity extends ActionBarActivity implements ViewAnimator.ViewAnimatorListener {
+public class MainActivity extends ActionBarActivity implements ViewAnimator.ViewAnimatorListener,ConnectivityReceiver.ConnectivityReceiverListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private List<SlideMenuItem> list = new ArrayList<>();
@@ -71,6 +74,13 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         setActionBar();
         createMenuList();
         viewAnimator = new ViewAnimator<>(this, list, contentFragment, drawerLayout, this);
+        checkConnection();
+
+    }
+    // Method to manually check connection status
+    private void checkConnection() {
+        boolean isConnected = ConnectivityReceiver.isConnected();
+        showSnack(isConnected);
     }
 
     private void createMenuList() {
@@ -247,5 +257,32 @@ private void appellagent(){
     @Override
     public void addViewToContainer(View view) {
         linearLayout.addView(view);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // register connection status listener
+        MyApplication.getInstance().setConnectivityListener(this);
+    }
+
+    /**
+     * Callback will be triggered when there is change in
+     * network connection
+     */
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+    // Showing the status in toast
+    private void showSnack(boolean isConnected) {
+        String message;
+        if(isConnected) {
+            Toast.makeText(getApplicationContext(),"Good! Connected to Internet .",Toast.LENGTH_LONG).show();
+        }else
+        {
+            Toast.makeText(getApplicationContext(),"Sorry! Not connected to internet.",Toast.LENGTH_LONG).show();
+
+        }
     }
 }

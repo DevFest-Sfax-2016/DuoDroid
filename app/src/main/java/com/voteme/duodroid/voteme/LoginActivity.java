@@ -20,9 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.voteme.duodroid.voteme.Broadcast.ConnectivityReceiver;
+import com.voteme.duodroid.voteme.Broadcast.MyApplication;
 import com.voteme.duodroid.voteme.model.User;
 
-public class LoginActivity extends ActionBarActivity implements View.OnClickListener{
+public class LoginActivity extends ActionBarActivity implements View.OnClickListener,ConnectivityReceiver.ConnectivityReceiverListener{
 
     private static final String TAG = "SignInActivity";
 
@@ -41,7 +43,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
-
+        checkConnection();
         initFirebase();
     }
     private void initView() {
@@ -56,6 +58,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         mSignUpButton.setOnClickListener(this);
 
 
+    }
+    // Method to manually check connection status
+    private void checkConnection() {
+        boolean isConnected = ConnectivityReceiver.isConnected();
+        showSnack(isConnected);
     }
     private void initFirebase() {
 
@@ -212,5 +219,32 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // register connection status listener
+        MyApplication.getInstance().setConnectivityListener(this);
+    }
+
+    /**
+     * Callback will be triggered when there is change in
+     * network connection
+     */
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+    // Showing the status in toast
+    private void showSnack(boolean isConnected) {
+        String message;
+        if(isConnected) {
+            Toast.makeText(getApplicationContext(),"Good! Connected to Internet .",Toast.LENGTH_LONG).show();
+        }else
+        {
+            Toast.makeText(getApplicationContext(),"Sorry! Not connected to internet.",Toast.LENGTH_LONG).show();
+
+        }
     }
 }
