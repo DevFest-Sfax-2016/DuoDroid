@@ -1,14 +1,18 @@
 package com.voteme.duodroid.voteme.Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.voteme.duodroid.voteme.MyDialog;
 import com.voteme.duodroid.voteme.R;
 import com.voteme.duodroid.voteme.model.Agent;
 
@@ -54,9 +58,33 @@ public class AgentAdapter extends RecyclerView.Adapter<AgentAdapter.CustomViewHo
         customViewHolder.btn_voit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* Intent i=new Intent(mContext, DetailVoiture.class);
-                i.putExtra("id",voit.getId());
-                mContext.startActivity(i);*/
+                AlertDialog.Builder  builder  = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyleSuccess);
+
+                builder.setIcon(R.drawable.thumbup);
+                builder.setTitle("Vote me.");
+
+                builder.setPositiveButton("", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        // Intent i=new Intent(Reservation.this,DetailReservation.class);
+                        //i.putExtra("id",);
+                    }
+                });
+                builder.setNegativeButton("", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        // Intent i=new Intent(Reservation.this,DetailReservation.class);
+                        //i.putExtra("id",);
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+                Button neg = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
+                neg.setBackgroundResource(R.drawable.thumbdown);
+                Button pos = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+                pos.setBackgroundResource(R.drawable.thumbup);
             }
         });
     }
@@ -73,6 +101,7 @@ public class AgentAdapter extends RecyclerView.Adapter<AgentAdapter.CustomViewHo
 
     @Override
     public void onClick(View v) {
+
 
     }
 

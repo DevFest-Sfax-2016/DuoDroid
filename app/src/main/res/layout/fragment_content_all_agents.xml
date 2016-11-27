@@ -1,6 +1,7 @@
 <io.codetail.widget.RevealFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/md_grey_200"
     android:layout_height="match_parent">
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,6 +13,7 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/freshSwipeView"
         android:layout_width="match_parent"
+        android:layout_marginTop="85px"
         android:layout_height="match_parent">
         <!-- TODO: Update blank fragment layout -->
         <android.support.v7.widget.RecyclerView
