@@ -8,8 +8,8 @@ public class Poste {
     private int code_pst;
     private String adresse;
     private String region;
-    private String lg;
-    private String lt;
+    private Double lg;
+    private Double lt;
 
     public Poste() {
     }
@@ -23,19 +23,19 @@ public class Poste {
         this.name = name;
     }
 
-    public String getLt() {
+    public Double getLt() {
         return lt;
     }
 
-    public void setLt(String ln) {
+    public void setLt(Double ln) {
         this.lt = ln;
     }
 
-    public String getLg() {
+    public Double getLg() {
         return lg;
     }
 
-    public void setLg(String lg) {
+    public void setLg(Double lg) {
         this.lg = lg;
     }
 

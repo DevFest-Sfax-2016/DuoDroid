@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -37,6 +38,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     private ActionBarDrawerToggle drawerToggle;
     private List<SlideMenuItem> list = new ArrayList<>();
     private ContentAllAgents contentFragment;
+    private ContentPoste contentPoste;
     private ViewAnimator viewAnimator;
     private int res = R.drawable.content_music;
     private LinearLayout linearLayout;
@@ -46,10 +48,15 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        contentFragment = ContentAllAgents.newInstance(R.drawable.voteme);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, contentFragment)
-                .commit();
+
+            contentFragment = ContentAllAgents.newInstance(R.drawable.voteme);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame, contentFragment)
+                    .commit();
+
+
+
+
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         linearLayout = (LinearLayout) findViewById(R.id.left_drawer);
@@ -150,6 +157,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     }
 
     private ScreenShotable replaceFragment(ScreenShotable screenShotable, int topPosition) {
+        ScreenShotable contentFragment =  contentFragment = ContentAllAgents.newInstance(this.res);
         this.res = this.res == R.drawable.voteme ? R.drawable.voteme : R.drawable.voteme;
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
@@ -161,10 +169,15 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         animator.start();
         switch (topPosition){
             case 1:
-                ContentAllAgents contentFragment = ContentAllAgents.newInstance(this.res);
+                 contentFragment = ContentAllAgents.newInstance(this.res);
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, (Fragment) contentFragment).commit();
+                return contentFragment;
+            case 2:
+                contentFragment = ContentPoste.newInstance(R.drawable.voteme);
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, (Fragment) contentFragment).commit();
+
         }
-        //ContentFragment contentFragment = ContentFragment.newInstance(this.res);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
+
         return contentFragment;
     }
 
@@ -176,8 +189,11 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
             case ContentFragment.LOGOUT:
                 signOut();
             case ContentFragment.AGENTS:
-                appellagent();
+                Intent i=new Intent(MainActivity.this,MainActivity.class);
+
+                startActivity(i);
             case ContentFragment.POSTE:
+
                 appelpostes();
 
 
@@ -186,14 +202,15 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         }
     }
 private void appellagent(){
-    ContentAllAgents contentFragment = new ContentAllAgents();
+    ContentAllAgents contentFragment =  new ContentAllAgents();
+
 
 
     getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
 }
 
     private void appelpostes(){
-        ContentPoste contentFragment = new ContentPoste();
+        ContentPoste contentFragment = ContentPoste.newInstance(R.drawable.voteme);
 
 
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();

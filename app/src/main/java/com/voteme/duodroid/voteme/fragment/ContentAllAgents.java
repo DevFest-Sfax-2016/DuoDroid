@@ -27,6 +27,8 @@ import com.voteme.duodroid.voteme.R;
 import com.voteme.duodroid.voteme.model.Agent;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
@@ -64,6 +66,7 @@ public class ContentAllAgents extends Fragment implements ScreenShotable {
         contentFragment.setArguments(bundle);
         return contentFragment;
     }
+
 
 
     @Override
@@ -145,6 +148,7 @@ private  void recuperer(){
                     Log.d("Get Data", post.getName());
                     data.add(post);
                 }
+                trier_array(data);
                 adapter=new AgentAdapter(getContext(),data);
                 mRecyclerView.setAdapter(adapter);
                 swipeRefreshLayout.setRefreshing(false);
@@ -160,7 +164,17 @@ private  void recuperer(){
     }
 
 
+    public void trier_array(List<Agent> ar)
+    {
+        Collections.sort(ar, new Comparator<Agent>() {
+            @Override
+            public int compare(Agent agent2, Agent agent1)
+            {
 
+                return  Double.compare(agent1.getScore(),agent2.getScore());
+            }
+        });
+    }
 
     @Override
     public Bitmap getBitmap() {

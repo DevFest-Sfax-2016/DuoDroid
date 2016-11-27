@@ -8,22 +8,30 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.voteme.duodroid.voteme.Adapters.AgentAdapter;
 import com.voteme.duodroid.voteme.Adapters.PosteAdapter;
 import com.voteme.duodroid.voteme.R;
 import com.voteme.duodroid.voteme.model.Agent;
 import com.voteme.duodroid.voteme.model.Poste;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 public class ContentPoste extends Fragment  implements ScreenShotable {
-
+    private DatabaseReference mDatabase;
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private View containerView;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -40,11 +48,18 @@ public class ContentPoste extends Fragment  implements ScreenShotable {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         if (getArguments() != null) {
 
         }
     }
-
+    public static ContentPoste newInstance(int resId) {
+        ContentPoste contentFragment = new ContentPoste();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Integer.class.getName(), resId);
+        contentFragment.setArguments(bundle);
+        return contentFragment;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,7 +103,9 @@ public class ContentPoste extends Fragment  implements ScreenShotable {
     }
 
 private  void recuperer(){
-
+    data=new ArrayList<Poste>();
+    swipeRefreshLayout.setRefreshing(true);
+    getall();
 }
 
 
@@ -114,6 +131,35 @@ private  void recuperer(){
     public Bitmap getBitmap() {
         return bitmap;
     }
+    public void getall()
+    {
+        mDatabase = database.getReference("/poste");
+        Log.d("test","entrer");
+        //mDatabase.child("/agent");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.d("Count " ,""+snapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    Poste post = postSnapshot.getValue(Poste.class);
+                    Log.d("Get Data", post.getName());
+                    data.add(post);
+                }
+
+                adapter=new PosteAdapter(getContext(),data);
+                mRecyclerView.setAdapter(adapter);
+                swipeRefreshLayout.setRefreshing(false);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
+    }
+
 
 
 }

@@ -50,7 +50,7 @@ public class PosteAdapter extends RecyclerView.Adapter<PosteAdapter.CustomViewHo
         //Setting text view title
         customViewHolder.tv_name.setText(voit.getName());
 
-        customViewHolder.tv_adresse.setText("Code du Poste: "+voit.getCode_pst());
+        customViewHolder.tv_adresse.setText(" "+voit.getAdresse());
         customViewHolder.btn_voit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

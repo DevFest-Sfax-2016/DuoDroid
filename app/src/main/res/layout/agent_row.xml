@@ -42,7 +42,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/btn_vote"
-            android:background="@drawable/vote"
+            android:background="@drawable/thumbup"
             android:layout_marginBottom="25dp"
             android:layout_alignBottom="@+id/img_voit"
             android:layout_alignParentRight="true"
@@ -73,5 +73,15 @@
             android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp"
             android:id="@+id/tv_score" />
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/thumbdown"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tv_score"
+            android:layout_toStartOf="@+id/tv_score"
+            android:id="@+id/btn_down" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>
