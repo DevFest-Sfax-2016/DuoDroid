@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.voteme.duodroid.voteme.Broadcast.ConnectivityReceiver;
@@ -68,6 +69,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+        FirebaseCrash.report(new Exception("Vote Me  non-fatal error"));
+        FirebaseCrash.log("Activity created");
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
